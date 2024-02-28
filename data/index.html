@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Controle LEDs NeoPixel & Buzzer</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<section class="controls">
+    <header><h1>Systeme de controle de Tracky la voiture Wifi</h1></header>
+</section>
+<body>
+    <section class="controls">
+        <h1>Controle des LEDs NeoPixel</h1>
+        <button id="changeColor">Couleur aleatoire </button>
+        <div class="controls_phare">
+            <h1>Contrôle des phares</h1>
+            <div></div>
+            <label for="leftHeadlightColor">Couleur phare gauche :</label>
+            <input type="color" id="leftHeadlightColor" name="leftHeadlightColor">
+            <input type="color" id="rightHeadlightColor" name="rightHeadlightColor">
+            <label for="rightHeadlightColor">Couleur phare droit :</label>
+    <div></div>
+            <button id="setHeadlightsColor">Appliquer</button>
+            <div></div>
+        </div>
+    </section>
+    <section class="controls">
+        <h1>Test du Buzzer</h1>
+        <button id="testBuzzer">Tester le Buzzer</button>
+    </section>
+    <section class="controls_moteur">
+        <div class="motor-controls">
+            <div class="motor" id="motor1">
+                <button id="motor1-forward">Moteur 1 Avant</button>
+                <button id="motor1-backward">Moteur 1 Arriere</button>
+            </div>
+            <div class="motor" id="motor2">
+                <button id="motor2-forward">Moteur 2 Avant</button>
+                <button id="motor2-backward">Moteur 2 Arriere</button>
+            </div>
+            <div class="motor" id="motor3">
+                <button id="motor3-forward">Moteur 3 Avant</button>
+                <button id="motor3-backward">Moteur 3 Arriere</button>
+            </div>
+            <div class="motor" id="motor4">
+                <button id="motor4-forward">Moteur 4 Avant</button>
+                <button id="motor4-backward">Moteur 4 Arriere</button>
+            </div>
+        </div>
+        
+    </section>
+    <section><div class="image-cadre">
+        <img src="car.png" alt="car image auto">
+    </div></section>
+    <script src="script.js"></script>
+</body>
+</html>

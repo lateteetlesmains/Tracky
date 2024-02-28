@@ -1,4 +1,3 @@
-// Ajout de l'écouteur d'événement pour setHeadlightsColor
 document.addEventListener('DOMContentLoaded', function() {
     // Configuration initiale pour les boutons de commande
     const buttons = [
@@ -12,8 +11,15 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: 'motor3-backward', endpoint: 'motor3-backward' },
         { id: 'motor4-forward', endpoint: 'motor4-forward' },
         { id: 'motor4-backward', endpoint: 'motor4-backward' },
-        // Ajouter d'autres boutons ici selon le même schéma
+        // Ajoutez d'autres boutons ici selon le même schéma si nécessaire
     ];
+
+    // Définition de la fonction addClickListener
+    function addClickListener(buttonId, endpoint) {
+        document.getElementById(buttonId).addEventListener('click', function() {
+            sendColors(endpoint);
+        });
+    }
 
     // Ajoute des écouteurs pour tous les boutons configurés
     buttons.forEach(function(button) {
@@ -30,8 +36,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Fonction pour envoyer les couleurs des phares au serveur
 function sendColors(leftColor, rightColor) {
-    fetch('/setheadlightscolor?left=' + leftColor + '&right=' + rightColor)
+    // Assurez-vous que cette URL correspond à l'endpoint défini dans votre serveur Arduino
+    fetch(`/setheadlightscolor?left=${encodeURIComponent(leftColor)}&right=${encodeURIComponent(rightColor)}`)
     .then(response => response.text())
-    .then(data => console.log(data))
+    .then(data => console.log('Réponse du serveur:', data))
     .catch(error => console.error('Erreur:', error));
 }
+
+// Note: La fonction sendColors utilisée dans addClickListener semble être destinée à envoyer des requêtes spécifiques.
+// Si sendColors est uniquement destinée aux phares, ajustez l'utilisation ou définissez des fonctions spécifiques pour chaque action.

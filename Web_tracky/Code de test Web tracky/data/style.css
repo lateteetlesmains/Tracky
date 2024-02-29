@@ -1,0 +1,113 @@
+body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    
+    color: #333;
+}
+
+h1, header {
+    color: #235aab;
+    margin: 20px 0;
+}
+.image-cadre {
+    background-color: rgba(255, 255, 255, 0.8);
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+}
+
+.image-cadre img {
+    display: block; /* Élimine l'espace en dessous de l'image */
+    width: 100%; /* Adapte l'image à la largeur du cadre */
+    height: auto; /* Garde les proportions de l'image */
+    border-radius: 5px; /* Bordures arrondies pour l'image, si souhaité */
+}
+
+button {
+    background-color: #235aab; /* Bleu */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    width: 400px;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px; /* Bordures arrondies */
+    transition-duration: 0.4s; /* Animation */
+}
+
+button:hover {
+    background-color: #004C70; /* Couleur de fond plus foncée au survol */
+    color: white;
+}
+
+/* Style spécifique pour les différents boutons */
+#changeColor, #testBuzzer {
+    background-color: #235aab; /* Bleu */
+}
+
+#changeColor:hover, #testBuzzer:hover {
+    opacity: 0.8;
+}
+
+.controls {
+    background-color: rgba(255, 255, 255, 0.8);
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+}
+.controls_moteur {
+    background-color: rgba(255, 255, 255, 0.8);
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+  
+    
+}
+.controls_phare {
+    background-color: rgba(255, 255, 255, 0.8);
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+  
+    
+}
+.motor-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+/* Style pour rendre l'élément de couleur en forme de rond */
+input[type="color"] {
+    appearance: none; /* Permet de personnaliser l'apparence */
+    width: 40px; /* Taille de l'élément */
+    height: 40px;
+    border-radius: 50%; /* Forme ronde */
+    border: none; /* Supprime les bordures par défaut */
+    outline: none; /* Supprime la bordure de focus */
+    cursor: pointer; /* Curseur pointer au survol */
+}
+.motor {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.motor button {
+    padding: 10px;
+    width: 100px; /* Ajustez la largeur en fonction de vos préférences */
+}

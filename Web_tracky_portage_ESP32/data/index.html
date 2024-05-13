@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Controle LEDs NeoPixel & Buzzer</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<section class="controls">
+    <header><h1>Systeme de controle de Tracky la voiture Wifi</h1></header>
+</section>
+<body>
+    <section class="controls_Tracky">
+        <div class="motor-controls">
+            <!-- Flèche du haut -->
+            <div class="motor">
+                <button id="En_Avant" class="arrow up"></button>
+            </div>
+            <!-- Ensemble central : Gauche, Stop (carré), Droite -->
+            <div class="motor-horizontal">
+                <div class="motor">
+                    <button id="Gauche" class="arrow left"></button>
+                </div>
+                <div class="motor">
+                    <button id="Stop" class="square"></button>
+                </div>
+                <div class="motor">
+                    <button id="Droite" class="arrow right"></button>
+                </div>
+            </div>
+            <!-- Flèche du bas -->
+            <div class="motor">
+                <button id="En_Arriere" class="arrow down"></button>
+            </div>
+        </div>
+    </section>
+    
+    
+    <section class="controls">
+        <h1>Controle des LEDs NeoPixel</h1>
+        <button id="changeColor">Couleur aleatoire </button>
+        <div class="controls_phare">
+            <h1>Controle des phares</h1>
+            <div></div>
+            <label for="leftHeadlightColor">Couleur phare gauche :</label>
+            <input type="color" id="leftHeadlightColor" name="leftHeadlightColor">
+            <input type="color" id="rightHeadlightColor" name="rightHeadlightColor">
+            <label for="rightHeadlightColor">Couleur phare droit :</label>
+    <div></div>
+            <button id="setHeadlightsColor">Appliquer</button>
+            <div></div>
+        </div>
+    </section>
+    <section class="controls">
+        <h1>Test du Buzzer</h1>
+        <button id="testBuzzer">Tester le Buzzer</button>
+    </section>
+
+    <section><div class="image-cadre">
+        <img src="car.png" alt="car image auto">
+    </div></section>
+    <script src="script.js"></script>
+</body>
+</html>

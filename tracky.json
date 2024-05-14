@@ -7,17 +7,17 @@
       "email": "support@espressif.com",
       "platforms": [
         {
-          "name": "esp32",
+          "name": "Tracky",
           "architecture": "esp32",
           "version": "1.0.6",
-          "category": "ESP32",
+          "category": "Tracky",
           "url": "https://github.com/espressif/arduino-esp32/releases/download/1.0.6/esp32-1.0.6.zip",
           "archiveFileName": "esp32-1.0.6.zip",
           "checksum": "SHA-256:efbb1d3994b5367a8ad29a4f07c2448e6c9c84829fa979d3b02a1a1fbc471cf1",
           "size": "114843955",
           "boards": [
             {
-              "name": "Wemos D1 Mini ESP32",
+              "name": "Tracky Wemos D1 Mini ESP32",
               "config": {
                 "cpu": "240 MHz",
                 "flash": "4 MB",

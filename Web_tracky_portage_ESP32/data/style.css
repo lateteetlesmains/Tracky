@@ -99,7 +99,51 @@ button:hover {
 .motor-controls {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 2
+    0px;
+}
+
+.controls_Tracky, .joystick-section {
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    max-width: 600px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+#joystick-zone {
+    width: 80vw; /* 80% de la largeur de la fenêtre */
+    height: 80vw; /* 80% de la largeur de la fenêtre pour garder un carré */
+    max-width: 600px; /* Taille maximale pour grands écrans */
+    max-height: 600px; /* Taille maximale pour grands écrans */
+    margin: 0 auto;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    position: relative;
+}
+.nipple {
+    width: 40% !important; /* 40% de la largeur du conteneur */
+    height: 40% !important; /* 40% de la largeur du conteneur */
+}
+.nipple .back {
+    width: 100% !important; /* 100% de la largeur de la nipple */
+    height: 100% !important; /* 100% de la largeur de la nipple */
+    margin-left: -50% !important; /* Ajuste pour centrer */
+    margin-top: -50% !important; /* Ajuste pour centrer */
+}
+.nipple .front {
+    width: 50% !important; /* 50% de la largeur de la nipple */
+    height: 50% !important; /* 50% de la largeur de la nipple */
+    margin-left: -25% !important; /* Ajuste pour centrer */
+    margin-top: -25% !important; /* Ajuste pour centrer */
+}
+/* Media Queries pour différentes tailles d'écran */
+@media (max-width: 600px) {
+    #joystick-zone {
+        width: 80vw; /* Réduire la taille pour les petits écrans */
+        height: 80vw;
+    }
 }
 /* Style pour rendre l'élément de couleur en forme de rond */
 input[type="color"] {
@@ -186,4 +230,39 @@ input[type="color"] {
 
 .square:hover {
     background-color: #004C70; /* Bleu plus foncé au survol */
+}
+.servoSlider_1 {
+    width: 300px;
+}
+.servoSlider_2 {
+    width: 300px;
+}
+
+
+/* Si vous avez des éléments supplémentaires pour les mouvements */
+#joystick-handle .handle {
+    width: 100px;  /* Ajuster selon les dimensions internes */
+    height: 100px; /* Ajuster selon les dimensions internes */
+    background-color: rgba(0, 0, 255, 0.7); /* Exemple de couleur */
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.nipple {
+    width: 200px !important; /* Double la largeur */
+    height: 200px !important; /* Double la hauteur */
+}
+.nipple .back {
+    width: 200px !important; /* Double la largeur */
+    height: 200px !important; /* Double la hauteur */
+    margin-left: -100px !important; /* Ajuste pour centrer */
+    margin-top: -100px !important; /* Ajuste pour centrer */
+}
+.nipple .front {
+    width: 100px !important; /* Double la largeur */
+    height: 100px !important; /* Double la hauteur */
+    margin-left: -50px !important; /* Ajuste pour centrer */
+    margin-top: -50px !important; /* Ajuste pour centrer */
 }

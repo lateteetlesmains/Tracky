@@ -1,10 +1,5 @@
-
-function addClickListener(buttonId, endpoint) {
-    document.getElementById(buttonId).addEventListener('click', function() {
-        sendCommand(endpoint);
-    });
-}
 document.addEventListener('DOMContentLoaded', function() {
+    // Configuration des boutons existants
     const buttons = [
         { id: 'changeColor', endpoint: 'changecolor' },
         { id: 'testBuzzer', endpoint: 'testbuzzer' },
@@ -13,42 +8,125 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: 'Droite', endpoint: 'right' },
         { id: 'En_Arriere', endpoint: 'backward' },
         { id: 'Stop', endpoint: 'stop' }
-        // Ajoutez d'autres boutons ici selon le même schéma si nécessaire
     ];
 
     buttons.forEach(function(button) {
         addClickListener(button.id, button.endpoint);
     });
 
-    // Configuration spéciale pour le bouton des phares, si nécessaire
+    var setHeadlightsColorButton = document.getElementById('setHeadlightsColor');
+    if (setHeadlightsColorButton) {
+        setHeadlightsColorButton.addEventListener('click', function() {
+            var leftColor = document.getElementById('leftHeadlightColor').value;
+            var rightColor = document.getElementById('rightHeadlightColor').value;
+            sendColors(leftColor, rightColor);
+        });
+    }
+
+    // Configuration du joystick
+    var joystick = nipplejs.create({
+        zone: document.getElementById('joystick-zone'),
+        mode: 'static',
+        position: { left: '50%', top: '50%' },
+        color: 'red'
+    });
+    joystick.on('added', function (evt, nipple) {
+        // Modifier la taille des éléments après la création du joystick
+        var back = nipple.ui[0].el.querySelector('.back');
+        var front = nipple.ui[0].el.querySelector('.front');
+
+        if (back && front) {
+            back.style.width = '200px';
+            back.style.height = '200px';
+            back.style.marginLeft = '-100px';
+            back.style.marginTop = '-100px';
+
+            front.style.width = '100px';
+            front.style.height = '100px';
+            front.style.marginLeft = '-50px';
+            front.style.marginTop = '-50px';
+        }
+    });
+    joystick.on('move', function (evt, data) {
+        if (data.direction) {
+            var direction = data.direction.angle;
+            // Convertir la force (qui est entre 0 et 1) en une valeur entière entre 0 et 255
+            var force = Math.round(data.force * 255);
+            // Limiter la force à 255 maximum
+            force = Math.min(force, 255);
+            sendJoystickCommand(direction, force);
+        }
+    });
+
+    joystick.on('end', function () {
+        sendCommand('stop');
+    });
 });
-// Note: La fonction sendColors utilisée dans addClickListener semble être destinée à envoyer des requêtes spécifiques.
-// Si sendColors est uniquement destinée aux phares, ajustez l'utilisation ou définissez des fonctions spécifiques pour chaque action.
+var slider_1 = document.getElementById("servoSlider_1");
+var slider_2 = document.getElementById("servoSlider_2");
+
+var servoP1 = document.getElementById("servoPos1");
+var servoP2 = document.getElementById("servoPos2");
+
+servoP1.innerHTML = slider_1.value;
+servoP2.innerHTML = slider_2.value;
+
+slider_1.oninput = function() {
+    slider_1.value = this.value;
+    servoP1.innerHTML = this.value;
+    slider_2.value = this.value;
+    servoP2.innerHTML = this.value;
+            
+}
+
+ slider_2.oninput = function() {
+    slider_1.value = this.value;
+    servoP1.innerHTML = this.value;
+    slider_2.value = this.value;
+    servoP2.innerHTML = this.value;
+}
+
+$.ajaxSetup({timeout: 1000});
+
+
+function servo_1(pos) {
+$.get("/position_servo_1?value=" + pos + "&", {Connection: close});
+}
+function servo_2(pos) {
+$.get("/position_servo_2?value=" + pos + "&", {Connection: close});
+}
+slider_1.addEventListener("change", function() {
+    servo_1(this.value);
+});
+slider_2.addEventListener("change", function() {
+    servo_2(this.value);
+});
+function addClickListener(buttonId, endpoint) {
+    var button = document.getElementById(buttonId);
+    if (button) {
+        button.addEventListener('click', function() {
+            sendCommand(endpoint);
+        });
+    }
+}
+
 function sendCommand(endpoint) {
-    // Assurez-vous que cette URL correspond à l'endpoint défini dans votre serveur Arduino
     fetch(`/${endpoint}`)
     .then(response => response.text())
     .then(data => console.log('Reponse du serveur:', data))
     .catch(error => console.error('Erreur:', error));
 }
-  
-  // Nouvel écouteur d'événement pour setHeadlightsColor
-    document.getElementById('setHeadlightsColor').addEventListener('click', function() {
-        var leftColor = document.getElementById('leftHeadlightColor').value;
-        var rightColor = document.getElementById('rightHeadlightColor').value;
-        sendColors(leftColor, rightColor);
-    });
 
-
-// Fonction pour envoyer les couleurs des phares au serveur
 function sendColors(leftColor, rightColor) {
-    // Assurez-vous que cette URL correspond à l'endpoint défini dans votre serveur Arduino
     fetch(`/setheadlightscolor?left=${encodeURIComponent(leftColor)}&right=${encodeURIComponent(rightColor)}`)
     .then(response => response.text())
     .then(data => console.log('Reponse du serveur:', data))
     .catch(error => console.error('Erreur:', error));
 }
 
-
-
-
+function sendJoystickCommand(direction, force) {
+    fetch(`/joystick?direction=${encodeURIComponent(direction)}&force=${encodeURIComponent(force)}`)
+    .then(response => response.text())
+    .then(data => console.log('Reponse du serveur:', data))
+    .catch(error => console.error('Erreur:', error));
+}

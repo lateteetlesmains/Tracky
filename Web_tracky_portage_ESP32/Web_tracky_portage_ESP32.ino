@@ -10,13 +10,19 @@
 #define ssid "🏎Tracky🏎"
 #define password ""
 
+#define start_pwm 51
+#define stop_pwm_tourne 153 
+
 // Définition des pins utilisés pour les NeoPixels et le buzzer
 #define NEOPIXEL_PIN 1 // GPIO01, aussi connu comme TX
-
 #define NUMPIXELS 2
-
 #define Pin_Klaxon D3
 
+Servo servo_1;  // create servo object to control a servo
+Servo servo_2;  // create servo object to control a servo
+// GPIO the servo is attached to
+int servoPin_1 = 23;
+int servoPin_2 = 17;
 // Définition des broches pour les moteurs avant
 const int motorAvant1Pin1 = D4;
 const int motorAvant1Pin2 = D3;
@@ -31,6 +37,7 @@ const int motorArriere2Pin2 = D0;
 
 MX1508 motorAvantGauche(motorAvant1Pin1, motorAvant1Pin2); // default SLOW_DECAY (resolution 8 bits, frequency 1000Hz)
 MX1508 motorAvantdroite(motorAvant2Pin1, motorAvant2Pin2); // default SLOW_DECAY (resolution 8 bits, frequency 1000Hz)
+
 MX1508 motorArriereGauche(motorArriere1Pin1, motorArriere1Pin2); // default SLOW_DECAY (resolution 8 bits, frequency 1000Hz)
 MX1508 motorArrieredroite(motorArriere2Pin1, motorArriere2Pin2); // default SLOW_DECAY (resolution 8 bits, frequency 1000Hz)
 
@@ -46,8 +53,10 @@ AsyncWebServer server(80);
 //}
 
 void init_Moteur() {
+  
     motorAvantGauche.motorBrake();
     motorAvantdroite.motorBrake();
+    
     motorArriereGauche.motorBrake();
     motorArrieredroite.motorBrake();
 }
@@ -126,53 +135,91 @@ void TestBuzzer() {
 //}
 
 void stopTout() {
-   motorAvantGauche.motorBrake();
+    motorAvantGauche.motorBrake();
     motorAvantdroite.motorBrake();
     motorArriereGauche.motorBrake();
     motorArrieredroite.motorBrake();
 }
 
 void avancer() {
-//  for (int pwm = 0; pwm <= 200; pwm++) { // ramp up forward.
-//    motorAvantGauche.motorGo(pwm);
-//    motorAvantdroite.motorGo(-pwm);
-//    motorArriereGauche.motorGo(pwm);
-//    motorArrieredroite.motorGo(-pwm);
-//    delay(10);
-//  }
-motorArriereGauche.motorGo(255);
+  for (int pwm = start_pwm; pwm <= 255; pwm=pwm+51) { // ramp up forward.
+    motorAvantGauche.motorGo(-pwm);
+    motorAvantdroite.motorGo(-pwm);
+    motorArriereGauche.motorGo(pwm);
+    motorArrieredroite.motorGo(-pwm);
+    delay(500);
+  }
 }
 
 void reculer() {
-  for (int pwm = 0; pwm <= 200; pwm++) { // ramp up forward.
-    motorAvantGauche.motorGo(-pwm);
+
+  for (int pwm = start_pwm; pwm <= 255; pwm=pwm+51) { // ramp up forward.
+    motorAvantGauche.motorGo(pwm);
     motorAvantdroite.motorGo(pwm);
     motorArriereGauche.motorGo(-pwm);
     motorArrieredroite.motorGo(pwm);
-    delay(10);
+    delay(500);
   }
 }
 
 void tournerGauche() {
- for (int pwm = 0; pwm <= 200; pwm++) { // ramp up forward.
+  for (int pwm = start_pwm; pwm <= stop_pwm_tourne; pwm=pwm+51) { // ramp up forward.
     motorAvantGauche.motorGo(pwm);
-    motorAvantdroite.motorGo(pwm);
     motorArriereGauche.motorGo(-pwm);
+
+    motorAvantdroite.motorGo(-pwm);
     motorArrieredroite.motorGo(-pwm);
-    delay(10);
+    
+    delay(500);
   }
+ 
 }
 
 void tournerDroite() {
-  for (int pwm = 0; pwm <= 200; pwm++) { // ramp up forward.
+for (int pwm = start_pwm; pwm <= stop_pwm_tourne; pwm=pwm+51) { // ramp up forward.
     motorAvantGauche.motorGo(-pwm);
-    motorAvantdroite.motorGo(-pwm);
     motorArriereGauche.motorGo(pwm);
+
+     motorAvantdroite.motorGo(pwm);
     motorArrieredroite.motorGo(pwm);
-    delay(10);
+    delay(500);
+  }
+  
+   
+}
+void handleJoystick(String direction, int force) {
+  if (direction == "up") {
+    Serial.println("force:");
+    Serial.println(force);
+    motorAvantGauche.motorGo(-force);
+    motorAvantdroite.motorGo(-force);
+    motorArriereGauche.motorGo(force);
+    motorArrieredroite.motorGo(-force);
+  } else if (direction == "down") {
+    Serial.println("force:");
+    Serial.println(force);
+      motorAvantGauche.motorGo(force);
+    motorAvantdroite.motorGo(force);
+    motorArriereGauche.motorGo(-force);
+    motorArrieredroite.motorGo(force);
+  } else if (direction == "left") {
+    Serial.println("force:");
+    Serial.println(force);
+    motorAvantGauche.motorGo(force);
+    motorArriereGauche.motorGo(-force);
+
+    motorAvantdroite.motorGo(-force);
+    motorArrieredroite.motorGo(-force);
+  } else if (direction == "right") {
+    Serial.println("force:");
+    Serial.println(force);
+    motorAvantGauche.motorGo(-force);
+    motorArriereGauche.motorGo(force);
+
+     motorAvantdroite.motorGo(force);
+    motorArrieredroite.motorGo(force);
   }
 }
-
 
   void setupWebServer() {
   // Route for root / web page
@@ -191,12 +238,20 @@ void tournerDroite() {
   server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/script.js", "application/javascript");
   });
-
+  server.on("/nipplejs.min.js", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/nipplejs.min.js", "application/javascript");
+  });
+server.on("/jquery.min.js", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/jquery.min.js", "application/javascript");
+  });
   server.on("/testbuzzer", HTTP_GET, [](AsyncWebServerRequest *request){
     TestBuzzer();
     Serial.println("Requête reçue : /testbuzzer");
     request->send(200, "text/plain", "buzzer OK");
 });
+ server.on("/car.png", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/car.png", "image/png");
+  });
 
  
  // Gérer les requêtes pour chaque bouton de contrôle moteur
@@ -235,10 +290,40 @@ server.on("/stop", HTTP_GET, [](AsyncWebServerRequest *request) {
   request->send(200, "text/plain", "stop");
 });
 
+server.on("/joystick", HTTP_GET, [](AsyncWebServerRequest *request){
+    String direction = request->getParam("direction")->value();
+    String force = request->getParam("force")->value();
+    handleJoystick(direction, force.toInt());
+    request->send(200, "text/plain", "Joystick command received");
+  });
+server.on("/position_servo_1", HTTP_GET, [](AsyncWebServerRequest *request){
+    if (request->hasParam("value")) {
+      int pos = request->getParam("value")->value().toInt();
+      Serial.println("Servo_1:");
+      Serial.println(pos);
+      servo_1.write(pos);
+      request->send(200, "text/plain", "Position updated");
+    } else {
+      request->send(400, "text/plain", "No position specified");
+    }
+  });
 
+  server.on("/position_servo_2", HTTP_GET, [](AsyncWebServerRequest *request){
+    if (request->hasParam("value")) {
+      int pos = request->getParam("value")->value().toInt();
+      Serial.println("Servo_2:");
+      Serial.println(pos);
+      servo_2.write(pos);
+      request->send(200, "text/plain", "Position updated");
+    } else {
+      request->send(400, "text/plain", "No position specified");
+    }
+  });
+  
   server.onNotFound([](AsyncWebServerRequest *request){
     request->send(404, "text/plain", "Not found");
   });
+
 
   // Start server
   server.begin();
@@ -252,6 +337,9 @@ void setup() {
   }
   setupWiFi();
   setupWebServer();
+  servo_1.attach(servoPin_1, 500, 2400); // Pulse width range in microseconds
+  servo_2.attach(servoPin_2, 500, 2400); // Pulse width range in microseconds
+
 }
 void loop() {
   //server.handleClient();

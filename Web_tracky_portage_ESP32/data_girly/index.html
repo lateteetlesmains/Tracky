@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Controle LEDs NeoPixel & Buzzer</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="nipplejs.min.js"></script>
+</head>
+<section class="controls">
+    <header>
+        <h1>Systeme de controle de Tracky la voiture Wifi</h1>
+    </header>
+</section>
+
+
+<body>
+    <section class="joystick-section">
+        <header>
+            <h1>Joystick de controle</h1>
+        </header>
+        <div id="joystick-zone"></div>
+    </section>
+    <section class="SG90_ctrl"></section>
+        <input type="range" min="0" max="180" value="90" id="servoSlider_1">
+        <p>Servo 1 Position: <span id="servoPos1">90</span></p>
+        <input type="range" min="0" max="180" value="90" id="servoSlider_2">
+        <p>Servo 2 Position: <span id="servoPos2">90</span></p>
+    </section>   
+ 
+
+    <!-- <section class="controls"> -->
+    <!-- <h1>Controle des LEDs NeoPixel</h1> -->
+    <!-- <button id="changeColor">Couleur aleatoire </button> -->
+    <!-- <div class="controls_phare"> -->
+    <!-- <h1>Controle des phares</h1> -->
+    <!-- <div></div> -->
+    <!-- <label for="leftHeadlightColor">Couleur phare gauche :</label> -->
+    <!-- <input type="color" id="leftHeadlightColor" name="leftHeadlightColor"> -->
+    <!-- <input type="color" id="rightHeadlightColor" name="rightHeadlightColor"> -->
+    <!-- <label for="rightHeadlightColor">Couleur phare droit :</label> -->
+    <!-- <div></div> -->
+    <!-- <button id="setHeadlightsColor">Appliquer</button> -->
+    <!-- <div></div> -->
+    <!-- </div> -->
+    <!-- </section> -->
+    <!-- <section class="controls"> -->
+    <!-- <h1>Test du Buzzer</h1> -->
+    <!-- <button id="testBuzzer">Tester le Buzzer</button> -->
+    <!-- </section> -->
+
+    <section>
+        <div class="image-cadre">
+            <img src="car.png" alt="car image auto">
+        </div>
+    </section>
+    <script src="script.js"></script>
+</body>
+
+</html>

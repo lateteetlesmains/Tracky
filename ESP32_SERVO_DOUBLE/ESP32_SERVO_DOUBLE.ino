@@ -4,7 +4,8 @@
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 
-Servo myservo;  // create servo object to control a servo
+Servo servo_1;  // create servo object to control a servo
+Servo servo_2;  // create servo object to control a servo
 
 // GPIO the servo is attached to
 int servoPin_1 = 23;
@@ -19,8 +20,8 @@ AsyncWebServer server(80);
 
 void setup() {
   Serial.begin(115200);
-  servoPin_1.attach(servoPin_1, 500, 2400); // Pulse width range in microseconds
-  servoPin_2.attach(servoPin_2, 500, 2400); // Pulse width range in microseconds
+  servo_1.attach(servoPin_1, 500, 2400); // Pulse width range in microseconds
+  servo_2.attach(servoPin_2, 500, 2400); // Pulse width range in microseconds
 
   // Start SPIFFS
   if (!SPIFFS.begin(true)) {
@@ -54,7 +55,7 @@ void setup() {
     if (request->hasParam("value")) {
       int pos = request->getParam("value")->value().toInt();
       Serial.print(pos);
-      servoPin_1.write(pos);
+      servo_1.write(pos);
       request->send(200, "text/plain", "Position updated");
     } else {
       request->send(400, "text/plain", "No position specified");
@@ -65,7 +66,7 @@ void setup() {
     if (request->hasParam("value")) {
       int pos = request->getParam("value")->value().toInt();
       Serial.print(pos);
-      servoPin_2.write(pos);
+      servo_2.write(pos);
       request->send(200, "text/plain", "Position updated");
     } else {
       request->send(400, "text/plain", "No position specified");

@@ -1,3 +1,6 @@
+var canDetectMove = true;
+var force_old=0;
+
 document.addEventListener('DOMContentLoaded', function() {
     // Configuration des boutons existants
     const buttons = [
@@ -36,8 +39,8 @@ document.addEventListener('DOMContentLoaded', function() {
         var front = nipple.ui[0].el.querySelector('.front');
 
         if (back && front) {
-            back.style.width = '200px';
-            back.style.height = '200px';
+            back.style.width = '400px';
+            back.style.height = '400px';
             back.style.marginLeft = '-100px';
             back.style.marginTop = '-100px';
 
@@ -48,18 +51,37 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     joystick.on('move', function (evt, data) {
+        if (!canDetectMove) {
+            return; // Ignorer l'événement move si la détection est désactivée
+        }
         if (data.direction) {
             var direction = data.direction.angle;
             // Convertir la force (qui est entre 0 et 1) en une valeur entière entre 0 et 255
             var force = Math.round(data.force * 255);
+            
             // Limiter la force à 255 maximum
             force = Math.min(force, 255);
-            sendJoystickCommand(direction, force);
+            console.log(force);
+            if (force==force_old)
+                {
+                    return;
+                }
+            if (force > 90) {
+                sendJoystickCommand(direction, force);
+                force_old=force;
+            }
+            
         }
     });
 
     joystick.on('end', function () {
-        sendCommand('stop');
+        console.log('Joystick relâché');
+        sendStopCommandUntilAcknowledged();
+        canDetectMove = false;
+        force_old=0;
+    setTimeout(function() {
+        canDetectMove = true;
+    }, 500); // Délai de 500 millisecondes
     });
 });
 var slider_1 = document.getElementById("servoSlider_1");
@@ -129,4 +151,26 @@ function sendJoystickCommand(direction, force) {
     .then(response => response.text())
     .then(data => console.log('Reponse du serveur:', data))
     .catch(error => console.error('Erreur:', error));
+}
+function sendStopCommandUntilAcknowledged() {
+    let intervalId = setInterval(() => {
+        sendCommand('stop');
+        sendJoystickCommand('stop', 0);
+    }, 100);
+
+    function checkServerAcknowledgement() {
+        fetch('/stop-check')
+        .then(response => response.text())
+        .then(data => {
+            if (data === 'stop') {
+                clearInterval(intervalId);
+                console.log('Commande stop confirmée par le serveur');
+            } else {
+                setTimeout(checkServerAcknowledgement, 200);
+            }
+        })
+        .catch(error => console.error('Erreur:', error));
+    }
+
+    checkServerAcknowledgement();
 }

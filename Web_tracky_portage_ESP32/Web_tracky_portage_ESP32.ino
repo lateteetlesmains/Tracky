@@ -180,6 +180,7 @@ for (int pwm = start_pwm; pwm <= stop_pwm_tourne; pwm=pwm+51) { // ramp up forwa
     motorAvantGauche.motorGo(-pwm);
     motorArriereGauche.motorGo(pwm);
 
+
      motorAvantdroite.motorGo(pwm);
     motorArrieredroite.motorGo(pwm);
     delay(500);
@@ -289,6 +290,13 @@ server.on("/stop", HTTP_GET, [](AsyncWebServerRequest *request) {
   // Implémentez la logique de contrôle du moteur 3 pour avancer ici
   request->send(200, "text/plain", "stop");
 });
+server.on("/stop-check", HTTP_GET, [](AsyncWebServerRequest *request) {
+  Serial.println("Requête reçue : stop");
+  stopTout();
+  request->send(200, "text/plain", "stop");
+});
+
+
 
 server.on("/joystick", HTTP_GET, [](AsyncWebServerRequest *request){
     String direction = request->getParam("direction")->value();

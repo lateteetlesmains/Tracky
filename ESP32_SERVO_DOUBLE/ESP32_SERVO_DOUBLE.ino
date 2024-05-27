@@ -8,8 +8,8 @@ Servo servo_1;  // create servo object to control a servo
 Servo servo_2;  // create servo object to control a servo
 
 // GPIO the servo is attached to
-int servoPin_1 = 23;
-int servoPin_2 = 17;
+int servoPin_1 = 32;
+int servoPin_2 = 25;
 
 // Network credentials
 const char* ssid     = "servo";

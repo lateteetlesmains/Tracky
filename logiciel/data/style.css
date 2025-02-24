@@ -1,0 +1,149 @@
+/* 🌄 Arrière-plan global */
+body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #1e3c72, #2a5298); /* Bleu foncé à bleu clair */
+    color: #fff; /* Texte en blanc pour plus de lisibilité */
+}
+
+/* 🎭 Titres et en-têtes */
+h1, header {
+    color: #f8f9fa;
+    margin: 20px 0;
+    font-size: 1.8rem;
+}
+
+/* 🎨 Cadre des images et des éléments interactifs */
+.image-cadre, .controls {
+    background-color: rgba(255, 255, 255, 0.1); /* Léger blanc translucide */
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2); /* Ombre blanche subtile */
+}
+
+/* 📸 Images */
+.image-cadre img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* 🎛 Boutons interactifs */
+button {
+    background-color: #007bff; /* Bleu vif */
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 300px;
+    margin: 10px auto;
+    display: block;
+    transition: all 0.3s ease-in-out;
+}
+
+/* 🌟 Effet au survol */
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* 🌟 Effet de clic */
+button:active {
+    transform: scale(0.95);
+}
+
+/* 🎛 Contrôle du joystick */
+#joystick-zone {
+    width: 70vw;
+    height: 70vw;
+    max-width: 400px;
+    max-height: 400px;
+    margin: 20px auto;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 🕹 Personnalisation des nipples (joystick) */
+.nipple {
+    width: 40%;
+    height: 40%;
+}
+.nipple .back {
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+}
+.nipple .front {
+    width: 50%;
+    height: 50%;
+    background: white;
+    border-radius: 50%;
+}
+
+/* 🌈 Sliders */
+input[type="range"] {
+    width: 80%;
+    margin: 10px auto;
+    display: block;
+}
+
+/* 🔘 Contrôles moteur */
+.controls_Tracky {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: auto;
+}
+
+/* 🎨 Boutons flèches */
+.motor-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.motor-horizontal {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* 🟡 Sélecteur de couleur (phares) */
+input[type="color"] {
+    appearance: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+
+/* 📱 Adaptation aux écrans mobiles */
+@media (max-width: 600px) {
+    body {
+        font-size: 14px;
+    }
+    button {
+        width: 90%;
+    }
+    #joystick-zone {
+        width: 80vw;
+        height: 80vw;
+    }
+}

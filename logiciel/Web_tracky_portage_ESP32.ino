@@ -3,11 +3,11 @@
 #include <SPIFFS.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include <Adafruit_NeoPixel.h>
+
 
 #include <FS_MX1508.h>
 
-#define ssid "🏎Dragono🏎"
+#define ssid "Black_Swan"
 #define password ""
 
 #define start_pwm 51
@@ -18,18 +18,19 @@
 //
 //#define pos_pince_ouvre_1 100
 //#define pos_pince_ouvre_2 100
-#define pos_pince_ferme_1 0
-#define pos_pince_ferme_2 140
 
-#define pos_pince_ouvre_1 120
-#define pos_pince_ouvre_2 100
+#define pos_pince_ferme_1 20
+#define pos_pince_ferme_2 80
+
+#define pos_pince_ouvre_1 80
+#define pos_pince_ouvre_2 20
 
 Servo servo_1;  // create servo object to control a servo
 Servo servo_2;  // create servo object to control a servo
 
 // GPIO the servo is attached to
 int servoPin_1 = 27;
-int servoPin_2 = 35
+int servoPin_2 = 33
 
 ;
 
@@ -117,19 +118,19 @@ void handleJoystick(String direction, int force) {
   } else if (direction == "left") {
     Serial.println("force:");
     Serial.println(force);
-    motorAvantGauche.motorGo(-force);
-    motorArriereGauche.motorGo(-force);
-
-    motorAvantDroite.motorGo(force);
-    motorArriereDroite.motorGo(force);
-  } else if (direction == "right") {
-    Serial.println("force:");
-    Serial.println(force);
     motorAvantGauche.motorGo(force);
     motorArriereGauche.motorGo(force);
 
     motorAvantDroite.motorGo(-force);
     motorArriereDroite.motorGo(-force);
+  } else if (direction == "right") {
+    Serial.println("force:");
+    Serial.println(force);
+    motorAvantGauche.motorGo(-force);
+    motorArriereGauche.motorGo(-force);
+
+    motorAvantDroite.motorGo(force);
+    motorArriereDroite.motorGo(force);
   }
 }
 
